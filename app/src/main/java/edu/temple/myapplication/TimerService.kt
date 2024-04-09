@@ -5,9 +5,13 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+//import java.util.logging.Handler
+import android.os.Handler
 
 @Suppress("ControlFlowWithEmptyBody")
 class TimerService : Service() {
+
+    private var timerHandler : Handler? = null
 
     private var isRunning = false
 
@@ -47,6 +51,10 @@ class TimerService : Service() {
             this@TimerService.pause()
         }
 
+        fun setHandler(handler: Handler){
+            timerHandler = handler
+        }
+
     }
 
     override fun onCreate() {
@@ -78,6 +86,7 @@ class TimerService : Service() {
             try {
                 for (i in startValue downTo 1)  {
                     Log.d("Countdown", i.toString())
+                    timerHandler?.sendEmptyMessage(i)
 
                         while (paused);
                         sleep(1000)
