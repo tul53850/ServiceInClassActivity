@@ -9,6 +9,8 @@ import android.os.Handler
 //import java.util.logging.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 
@@ -61,6 +63,20 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.stopButton).setOnClickListener {
             if (isConnected) timerBinder.stop()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.start -> if (isConnected) timerBinder.start(100)
+            R.id.pause -> if (isConnected) timerBinder.pause()
+            R.id.stop -> if (isConnected) timerBinder.stop()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
